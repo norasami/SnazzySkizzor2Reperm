@@ -3,7 +3,16 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Manager
+  - Target
+  - Clothing
+  - CutTrig_01
+  - CutTrig_02
+  - CutTrig_03
+  - CutTrig_04
+  - Skizzors
+  - Hair
   layers:
   - Default
   - TransparentFX
