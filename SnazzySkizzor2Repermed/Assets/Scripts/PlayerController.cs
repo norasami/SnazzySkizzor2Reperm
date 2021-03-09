@@ -31,17 +31,11 @@ public class PlayerController : MonoBehaviour
         cutTrig_04.GetComponent<BoxCollider2D>().enabled = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
-
         Vector3 mousePos = Input.mousePosition;
-
         Vector3 wantedPos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, depth));
-        
         transform.position = wantedPos;
-
-        //transform.rotation = Quaternion.LookRotation(mousePos, wantedPos);
 
         if (skizzorTime == true)
         {
