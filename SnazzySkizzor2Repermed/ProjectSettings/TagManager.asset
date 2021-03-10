@@ -13,6 +13,11 @@ TagManager:
   - CutTrig_04
   - Skizzors
   - Hair
+  - StyleTrig_01
+  - StyleTrig_02
+  - StyleTrig_03
+  - StyleTrig_04
+  - Comb
   layers:
   - Default
   - TransparentFX
