@@ -209,18 +209,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.09}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.44444445, y: 0.47361112}
+    oldSize: {x: 0.64, y: 0.64}
     newSize: {x: 0.44444445, y: 0.47361112}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.44444445, y: 0.47361112}
+  m_Size: {x: 0.63, y: 0.46}
   m_EdgeRadius: 0
 --- !u!212 &488663108
 SpriteRenderer:
@@ -261,7 +261,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 4bb78eb1fc737234caed174b9c7364a0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2b4b7f356e436aa4695d3a685e2bc0ac, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -728,6 +728,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   depth: 1
+  cutTrigs:
+  - {fileID: 1236786014}
+  - {fileID: 1899520190}
+  - {fileID: 1716539753}
+  - {fileID: 1757014318}
+  styleTrigs:
+  - {fileID: 262901357}
+  - {fileID: 1523854881}
+  - {fileID: 957303095}
+  - {fileID: 1942728737}
 --- !u!212 &1407695905
 SpriteRenderer:
   m_ObjectHideFlags: 0
