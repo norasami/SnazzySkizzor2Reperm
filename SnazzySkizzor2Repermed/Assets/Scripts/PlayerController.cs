@@ -212,42 +212,34 @@ public class PlayerController : MonoBehaviour
         if (styleToHere[0] == true && styleDirection[1] == true)
         {
             hairAnim.SetTrigger("Hairstyle1");
-            Debug.Log("Hairstyle1");
         }
         else if (styleToHere[0] == true && styleDirection[0] == true)
         {
             hairAnim.SetTrigger("Hairstyle2");
-            Debug.Log("Hairstyle2");
         }
         else if (styleToHere[0] == true && styleDirection[2] == true)
         {
             hairAnim.SetTrigger("Hairstyle3");
-            Debug.Log("Hairstyle3");
         }
         else if (styleToHere[1] == true && styleDirection[1] == true)
         {
             hairAnim.SetTrigger("Hairstyle4");
-            Debug.Log("Hairstyle4");
         }
         else if (styleToHere[1] == true && styleDirection[0] == true)
         {
             hairAnim.SetTrigger("Hairstyle5");
-            Debug.Log("Hairstyle5");
         }
         else if (styleToHere[1] == true && styleDirection[2] == true)
         {
             hairAnim.SetTrigger("Hairstyle6");
-            Debug.Log("Hairstyle6");
         }
         else if (styleToHere[2] == true && styleDirection[1] == true)
         {
             hairAnim.SetTrigger("Hairstyle7");
-            Debug.Log("Hairstyle7");
         }
         else if (styleToHere[2] == true && styleDirection[0] == true)
         {
             hairAnim.SetTrigger("Hairstyle8");
-            Debug.Log("Hairstyle8");
         }
         else if (styleToHere[2] == true && styleDirection[2] == true)
         {
