@@ -9,13 +9,9 @@ public class PlayerController : MonoBehaviour
     bool[] cutHere;
     bool[] cutLength;
     bool combTime;
-    bool combAvailable;
-    bool styleTime;
     bool[] styleFromHere;
     bool[] styleToHere;
-    bool styleUp;
-    bool styleLeft;
-    bool styleRight;
+    bool[] styleDirection;
     public int depth;
     Animator cursorAnim;
     Animator hairAnim;
@@ -24,6 +20,7 @@ public class PlayerController : MonoBehaviour
     public GameObject[] styleTrigs;
     Vector3 mouseDownPos;
     Vector3 mouseUpPos;
+    Vector3 dragDistance;
     void Start()
     {
         cursorAnim = GameObject.FindWithTag("Player").GetComponent<Animator>();
@@ -33,6 +30,7 @@ public class PlayerController : MonoBehaviour
         cutLength = new bool[4];
         styleFromHere = new bool[4];
         styleToHere = new bool[4];
+        styleDirection = new bool[3];
 
         foreach (GameObject cutTrig in cutTrigs)
         {
@@ -53,46 +51,6 @@ public class PlayerController : MonoBehaviour
         Vector3 mousePos = Input.mousePosition;
         Vector3 wantedPos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, depth));
         transform.position = wantedPos;
-
-        Vector3 dragDistance = mouseUpPos - mouseDownPos;
-        if (dragDistance.y > 0 && Mathf.Abs(dragDistance.y) > Mathf.Abs(dragDistance.x))
-        {
-            styleUp = true;
-        }
-        else if (dragDistance.x < 0 && Mathf.Abs(dragDistance.y) < Mathf.Abs(dragDistance.x))
-        {
-            styleLeft = true;
-        }
-        else if (dragDistance.x > 0 && Mathf.Abs(dragDistance.y) < Mathf.Abs(dragDistance.x))
-        {
-            styleRight = true;
-        }
-
-        if (skizzorTime == true)
-        {
-            foreach (GameObject cutTrig in cutTrigs)
-            {
-                cutTrig.GetComponent<BoxCollider2D>().enabled = true;
-            }
-            cuttingTime = true;
-        }
-
-        if (combAvailable == true)
-        {
-            comb.GetComponent<SpriteRenderer>().enabled = true;
-            comb.GetComponent<BoxCollider2D>().enabled = true;
-        }
-
-        if (styleTime == true)
-        {
-            for (int i = 0; i < cutLength.Length; i++)
-            {
-                if (cutLength[i] == true)
-                {
-                    styleTrigs[i].GetComponent<BoxCollider2D>().enabled = true;
-                }
-            }
-        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -101,153 +59,117 @@ public class PlayerController : MonoBehaviour
         {
             skizzorTime = true;
         }
-        else
-        {
-            skizzorTime = false;
-        }
-
-        if (other.CompareTag("CutTrig_01"))
+        else if (other.CompareTag("CutTrig_01"))
         {
             cutHere[0] = true;
         }
-        else
-        {
-            cutHere[0] = false;
-        }
-
-        if (other.CompareTag("CutTrig_02"))
+        else if (other.CompareTag("CutTrig_02"))
         {
             cutHere[1] = true;
         }
-        else
-        {
-            cutHere[1] = false;
-        }
-
-        if (other.CompareTag("CutTrig_03"))
+        else if (other.CompareTag("CutTrig_03"))
         {
             cutHere[2] = true;
         }
-        else
-        {
-            cutHere[2] = false;
-        }
-
-        if (other.CompareTag("CutTrig_04"))
+        else if (other.CompareTag("CutTrig_04"))
         {
             cutHere[3] = true;
         }
-        else
-        {
-            cutHere[3] = false;
-        }
-
-        if (other.CompareTag("Comb"))
+        else if (other.CompareTag("Comb"))
         {
             combTime = true;
         }
-        else
-        {
-            combTime = false;
-        }
-
-        if (other.CompareTag("StyleTrig_01"))
+        else if (other.CompareTag("StyleTrig_01"))
         {
             styleFromHere[0] = true;
         }
-        else
-        {
-            styleFromHere[0] = false;
-        }
-
-        if (other.CompareTag("StyleTrig_02"))
+        else if (other.CompareTag("StyleTrig_02"))
         {
             styleFromHere[1] = true;
         }
-        else
-        {
-            styleFromHere[1] = false;
-        }
-
-        if (other.CompareTag("StyleTrig_03"))
+        else if (other.CompareTag("StyleTrig_03"))
         {
             styleFromHere[2] = true;
         }
-        else
-        {
-            styleFromHere[2] = false;
-        }
-
-        if (other.CompareTag("StyleTrig_04"))
+        else if (other.CompareTag("StyleTrig_04"))
         {
             styleFromHere[3] = true;
         }
         else
         {
-            styleFromHere[3] = false;
+            skizzorTime = false;
+            for (int i = 0; i < cutHere.Length; i++)
+            {
+                cutHere[i] = false;
+            }
+            combTime = false;
+            for (int i = 0; i < styleFromHere.Length; i++)
+            {
+                styleFromHere[i] = false;
+            }
         }
     }
 
     void OnMouseDown()
     {
         mouseDownPos = Input.mousePosition;
-        
-        if(skizzorTime == true)
+
+        if (skizzorTime == true)
         {
             cursorAnim.SetTrigger("skizzorTime");
             hairAnim.SetTrigger("Haircut");
-            combAvailable = true;
+            comb.GetComponent<SpriteRenderer>().enabled = true;
+            comb.GetComponent<BoxCollider2D>().enabled = true;
+            foreach (GameObject cutTrig in cutTrigs)
+            {
+                cutTrig.GetComponent<BoxCollider2D>().enabled = true;
+            }
+            cuttingTime = true;
         }
 
-        if(cuttingTime == true)
+        if (cuttingTime == true)
         {
             cursorAnim.SetTrigger("cutHere");
         }
 
-        if(cutHere[0] == true)
+        if (cutHere[0] == true)
         {
             hairAnim.SetTrigger("CutPoint1");
             cutLength[0] = true;
         }
-        else
-        {
-            cutLength[0] = false;
-        }
-
-        if (cutHere[1] == true)
+        else if (cutHere[1] == true)
         {
             hairAnim.SetTrigger("CutPoint2");
             cutLength[1] = true;
         }
-        else
-        {
-            cutLength[1] = false;
-        }
-
-        if (cutHere[2] == true)
+        else if (cutHere[2] == true)
         {
             hairAnim.SetTrigger("CutPoint3");
             cutLength[2] = true;
         }
-        else
-        {
-            cutLength[2] = false;
-        }
-
-        if (cutHere[3] == true)
+        else if (cutHere[3] == true)
         {
             hairAnim.SetTrigger("CutPoint4");
             cutLength[3] = true;
         }
         else
         {
-            cutLength[3] = false;
+            for (int i = 0; i < cutLength.Length; i++)
+            {
+                cutLength[i] = false;
+            }
         }
 
         if (combTime == true)
         {
             cursorAnim.SetTrigger("combTime");
-            styleTime = true;
+            for (int i = 0; i < cutLength.Length; i++)
+            {
+                if (cutLength[i] == true)
+                {
+                    styleTrigs[i].GetComponent<BoxCollider2D>().enabled = true;
+                }
+            }
         }
 
         for (int i = 0; i < styleFromHere.Length; i++)
@@ -266,52 +188,80 @@ public class PlayerController : MonoBehaviour
     void OnMouseUp()
     {
         mouseUpPos = Input.mousePosition;
-
-        if (styleToHere[0] == true && styleLeft == true)
+        dragDistance = mouseUpPos - mouseDownPos;
+        if (dragDistance.y > 0 && Mathf.Abs(dragDistance.y) > Mathf.Abs(dragDistance.x))
         {
+            styleDirection[0] = true;
+        }
+        else if (dragDistance.x < 0 && Mathf.Abs(dragDistance.y) < Mathf.Abs(dragDistance.x))
+        {
+            styleDirection[1] = true;
+        }
+        else if (dragDistance.x > 0 && Mathf.Abs(dragDistance.y) < Mathf.Abs(dragDistance.x))
+        {
+            styleDirection[2] = true;
+        }
+        else
+        {
+            for (int i = 0; i < styleDirection.Length; i++)
+            {
+                styleDirection[i] = false;
+            }
+        }
+
+        if (styleToHere[0] == true && styleDirection[1] == true)
+        {
+            hairAnim.SetTrigger("Hairstyle1");
             Debug.Log("Hairstyle1");
         }
-        else if (styleToHere[0] == true && styleUp == true)
+        else if (styleToHere[0] == true && styleDirection[0] == true)
         {
+            hairAnim.SetTrigger("Hairstyle2");
             Debug.Log("Hairstyle2");
         }
-        else if (styleToHere[0] == true && styleRight == true)
+        else if (styleToHere[0] == true && styleDirection[2] == true)
         {
+            hairAnim.SetTrigger("Hairstyle3");
             Debug.Log("Hairstyle3");
         }
-        else if (styleToHere[1] == true && styleLeft == true)
+        else if (styleToHere[1] == true && styleDirection[1] == true)
         {
+            hairAnim.SetTrigger("Hairstyle4");
             Debug.Log("Hairstyle4");
         }
-        else if (styleToHere[1] == true && styleUp == true)
+        else if (styleToHere[1] == true && styleDirection[0] == true)
         {
+            hairAnim.SetTrigger("Hairstyle5");
             Debug.Log("Hairstyle5");
         }
-        else if (styleToHere[1] == true && styleRight == true)
+        else if (styleToHere[1] == true && styleDirection[2] == true)
         {
+            hairAnim.SetTrigger("Hairstyle6");
             Debug.Log("Hairstyle6");
         }
-        else if (styleToHere[2] == true && styleLeft == true)
+        else if (styleToHere[2] == true && styleDirection[1] == true)
         {
+            hairAnim.SetTrigger("Hairstyle7");
             Debug.Log("Hairstyle7");
         }
-        else if (styleToHere[2] == true && styleUp == true)
+        else if (styleToHere[2] == true && styleDirection[0] == true)
         {
+            hairAnim.SetTrigger("Hairstyle8");
             Debug.Log("Hairstyle8");
         }
-        else if (styleToHere[2] == true && styleRight == true)
+        else if (styleToHere[2] == true && styleDirection[2] == true)
         {
             Debug.Log("Hairstyle9");
         }
-        else if (styleToHere[3] == true && styleLeft == true)
+        else if (styleToHere[3] == true && styleDirection[1] == true)
         {
             Debug.Log("Hairstyle10");
         }
-        else if (styleToHere[3] == true && styleUp == true)
+        else if (styleToHere[3] == true && styleDirection[0] == true)
         {
             Debug.Log("Hairstyle11");
         }
-        else if (styleToHere[3] == true && styleRight == true)
+        else if (styleToHere[3] == true && styleDirection[2] == true)
         {
             Debug.Log("Hairstyle12");
         }
